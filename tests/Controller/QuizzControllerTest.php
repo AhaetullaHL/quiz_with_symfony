@@ -28,9 +28,5 @@ class QuizzControllerTest extends WebTestCase
         //and: on lui propose un formulaire pour ajouter son mail
         $this->assertCount(1, $crawler->filter('form.subscribeForm'));
     }
-
-    /*
-    * Scénario : Un utilisateur peut laisser son email pour être notifier de la sortie du quizz.
-    */
     
 }
