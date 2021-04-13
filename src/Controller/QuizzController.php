@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Player; 
+use App\Entity\Player;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
@@ -18,13 +18,13 @@ class QuizzController extends AbstractController
     public function index(Request $request)
     {
         $player = new Player();
-        
+
         $repository = $this->getDoctrine()->getRepository(Player::class);
         $players = $repository->findAll();
 
         $form = $this->createFormBuilder($player)
             ->add(
-                'email', 
+                'email',
                 EmailType::class,
                 [
                     'help' => 'Donnez votre e-mail et soyez informé.e lors de la sortie du quizz !',
@@ -34,23 +34,23 @@ class QuizzController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-                // $form->getData() holds the submitted values
-                // but, the original `$task` variable has also been updated
-                $player = $form->getData();
-               
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($player);
-                $entityManager->flush();
-                
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $player = $form->getData();
 
-                //usage du flashbag ;) 
-                $this->addFlash(
-                    'success',
-                    'Vous serez notifié.e des que le quizz est en ligne !'
-                );
-                
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($player);
+            $entityManager->flush();
 
-                return $this->redirectToRoute('quizz');
+
+            //usage du flashbag ;)
+            $this->addFlash(
+                'success',
+                'Vous serez notifié.e des que le quizz est en ligne !'
+            );
+
+
+            return $this->redirectToRoute('quizz');
         }
 
         return $this->render('quizz/index.html.twig', [
